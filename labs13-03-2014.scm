@@ -32,6 +32,7 @@
             (let ((x (string-ref str i)))
               (if (char=? position x) (iter (- i 1) position (+ counter 1) result)
                   (iter (- i 1) x 1 (string-append (~a position (if (= 1 counter) "" counter)) result)))))))
+                  
   (iter (- (string-length str) 2) (string-ref str (- (string-length str) 1)) 1 ""))
 
 ; main function
@@ -39,10 +40,12 @@
   ; Encodes all strings in textfile.
   (define input  (open-input-file filename))
   (define output (open-output-file filename #:exists 'replace))
+  
   (define (func res)
     (define string-from-input (read-line input))
     (if (eq? string-from-input eof) (displayln res output)
         (func (string-append res (rle string-from-input)))))
   (func "")
-  (close-output-port output))
+  
+ (close-output-port output))
 
