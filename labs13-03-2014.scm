@@ -48,4 +48,30 @@
   (func "")
   
  (close-output-port output))
+ 
+ 
+ 
+ ; #4
+ ; Solution for http://acm.timus.ru/problem.aspx?num=1494
+ 
+ (define (billiard filename)
+  (define input  (port->lines (open-input-file filename)))
+  (define output (open-output-file "output.txt" #:exists 'replace))
+  
+  (define (write-output n)
+    (displayln n output)
+    (close-output-port output))
+  
+  (define (cheated? lst)
+    (if (null? (rest lst)) (write-output "Not a proof")
+        (if (>= (first lst) (second lst)) 
+            (cheated? (rest lst))
+            (write-output "Cheater"))))
+  
+  (let ([counts (string->number     (first input))]
+        [balls  (map string->number (rest input))])
+    
+    (cond [(= (length balls) counts)
+           (cheated? balls)]
+          (else (write-output "Number of balls doesn't match given quantity")))))
 
