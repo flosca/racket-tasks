@@ -1,5 +1,17 @@
 #lang racket
 
+(define (read-input filename)
+; nice parsing of a textfile
+; from A B
+;      C D E
+;      etc.
+; function evaluates a list: '((A B) (C D E) ...)
+  (map (λ (a) (map (λ (x) (- x 48)) a))
+       (map (λ (x) (map char->integer x)) 
+            (map (λ (x) (remove* '(#\space) x))
+                 (map string->list (file->lines filename))))))
+
+
 (define (dfs a b graph)
   ; depth-first search
   (define (iter res lst)
