@@ -54,6 +54,8 @@
  ; #4
  ; Solution for http://acm.timus.ru/problem.aspx?num=1494
  
+ ;; UPD: doesn't work properly.
+ 
  (define (billiard filename)
   (define input  (port->lines (open-input-file filename)))
   (define output (open-output-file "output.txt" #:exists 'replace))
@@ -63,6 +65,7 @@
     (close-output-port output))
   
   (define (cheated? lst)
+  ; todo: fix this function
     (if (null? (rest lst)) (write-output "Not a proof")
         (if (>= (first lst) (second lst)) 
             (cheated? (rest lst))
