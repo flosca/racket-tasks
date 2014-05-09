@@ -1,12 +1,8 @@
 #lang racket
 
-(require "graphs.rkt")
+(require "libs/graphs.rkt")
+(require "libs/dicts.rkt")
 
-(define (read-input filename)
-  (map (λ (a) (map (λ (x) (- x 48)) a))
-       (map (λ (x) (map char->integer x)) 
-            (map (λ (x) (remove* '(#\space) x))
-                 (map string->list (file->lines filename))))))
 
 ; #1
 
@@ -27,20 +23,6 @@
 (define (rev x)
   ; changes the rotation of a gear
   (if (eq? x 'l) 'r 'l))
-
-(define (dict-append dict pair)
-  ; appends a new pair of linked gears
-  (let ([key   (car pair)]
-        [value (cdr pair)])
-    
-    (define (concat lst res)
-      (if (null? lst) (append dict (list res))
-          (if (eq? (caar lst) key)
-              (if (eq? (cdar lst) value)  dict
-                  false)
-              (concat (rest lst) res))))
-    
-    (concat dict pair)))
 
 (define (update-positions pair dict)
   ; changes the positions in dict
