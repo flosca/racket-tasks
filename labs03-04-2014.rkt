@@ -1,14 +1,15 @@
 #lang racket
 
 ;#1
-(define [polygon 
-         input-filename output-filename k]
+(define (similarize-polygon 
+         input output k)
+;; Input: each line contains a pair of numbers (could be rational or float) - coordinates of vertex in a plane
+;; Output: same collection of verices, but multiplied in {k} times.
   
   (define (read-matr)
-    (define input (open-input-file input-filename))
+    (define in (open-input-file input))
     (define vertices (read input))
-    
-    (build-list vertices (λ (x) (build-list 2 (λ (y) (read input))))))
+       (build-list vertices (λ (x) (build-list 2 (λ (y) (read in))))))
     
   
   (define (scalar* k matr)
@@ -17,48 +18,50 @@
   (define answer (scalar* k [read-matr]))
   
   (define (write-out n)
-    (define out (open-output-file output-filename #:exists 'replace))
+    (define out (open-output-file output #:exists 'replace))
     (displayln (length answer) out)
     (for-each (λ (x) (for-each (λ (y) (display y out) (display #\space out)) x) (displayln " " out)) answer) 
     (close-output-port out))
   
-  (write-out output-filename))
+  (write-out output))
 
 
 
 
 ; #2
-(define [pascal->file
-         k filename]
+(define (pascal-triangle
+         k filename)
          
 ; Builds the Pascal's triangle {with k strings} and writes it into a text file.         
   
-  (define [next line]
+  (define (next line)
     (map + (cons 0 line)
-         (append line (list 0))))
+           (append line (list 0))))
   
   (define (pascal-list num)
     (define (iter lst k)
       (if (= k -1) null
           (cons lst (iter (next lst) (sub1 k)))))
-    (iter (list 1) num))
+  (iter (list 1) num))
   
   
   (let ([triangle (pascal-list k)]
-        [output (open-output-file filename #:exists 'replace)])
+        [out      (open-output-file filename #:exists 'replace)])
     
     (for-each (λ (line) 
-                (for-each (λ (y) (display y   output)
-                                 (display " " output)) line)
-                (display "\n" output)) triangle) 
-    (close-output-port output)))
+                (for-each (λ (y) (display y   out)
+                                 (display " " out)) line)
+                (display "\n" out)) triangle) 
+    (close-output-port out)))
 
 
 ; #3
 
-(define [pref-suff 
-         input-filename output-filename
-         prefix suffix]
+(define (filter-pref-suff 
+         input output
+         prefix suffix)
+;; Input: just text strings
+;; Output: filtered strings (only those which start with {pref} and end with {suff})
   
   (define (starts-with? substr str)
     (define (iter i)
@@ -75,8 +78,8 @@
                         [starts-with? (string-reverse suffix)
                                       (string-reverse x)])) list))
   
-  (define (write-out smth)
-    (define out (open-output-file output-filename #:exists 'append))
+  (define (write-out n)
+    (define out (open-output-file output #:exists 'append))
     [begin
       (display smth out)
       (close-output-port out)])
@@ -88,6 +91,6 @@
           (write-out #\return)
           (iter (rest list))]))
   [begin
-    (define out (open-output-file output-filename #:exists 'truncate))
+    (define out (open-output-file output #:exists 'truncate))
     (display "" out)
-    (iter (filter-strings (file->lines input-filename)))])
+    (iter (filter-strings (file->lines input)))])
