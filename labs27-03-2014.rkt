@@ -11,9 +11,10 @@
 
 
 
-(define (change-words)
-  (define dict  (string-split (file->string "dictionary.txt") "\n"))
-  (define input (string-append " " (file->string "input.txt")))
+(define (change-words dict input output)
+;; {dict}, {input} and {output} are text files.
+  (define dict  (string-split (file->string dict) "\n"))
+  (define input (string-append " " (file->string input)))
   
   (define (iter dict str)
     (if (null? dict) str
@@ -22,7 +23,7 @@
                                            (string-append " " (first  changes))
                                            (string-append " " (second changes)))))))
   (define (write-out)
-    (define out (open-output-file "changed-text.txt" #:exists 'replace))
+    (define out (open-output-file output #:exists 'replace))
     
     (let* ((xs (iter dict input))
            (len (string-length xs)))
@@ -32,7 +33,7 @@
   
   (begin
     (write-out)
-    (close-input-port (open-input-file "input.txt"))))
+    (close-input-port (open-input-file input))))
 
 
 
