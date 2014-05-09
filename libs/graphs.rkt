@@ -1,10 +1,10 @@
 #lang racket
 
 (define (read-input filename)
-; nice parsing of a textfile
+; nice parsing of a textfile (e.g. a graph)
 ; from A B
 ;      C D E
-;      etc.
+;      etc. {where A, B, ... are whole numbers}
 ; function evaluates a list: '((A B) (C D E) ...)
   (map (λ (a) (map (λ (x) (- x 48)) a))
        (map (λ (x) (map char->integer x)) 
