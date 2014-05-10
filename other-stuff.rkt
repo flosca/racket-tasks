@@ -54,3 +54,31 @@
         (iter (add1 i) (append res (combinations i set)))))
     
   (iter 1 (list null))))
+
+
+
+
+(define (atoi str)
+ ;; "4323" -> 4323
+ (define (iter pos i)
+  (cond
+        ((>= pos (string-length str)) i)
+        ((char-numeric? (string-ref str pos))
+          (iter (+ 1 pos) (+ (char->integer (string-ref str pos))(- (char->integer #\0)) (* 10 i))))
+        (else #f)))
+  (iter 0 0))
+  
+  
+(define (int->roman n)
+  ;; Takes a number and gives a roman form of it.
+  (define num-list     '(1000 900 500 400 100 90 50 40 10 9 5 4 1))
+  (define roman-list   '("M" "CM" "D" "CD" "C" "XC" "L" "XL" "X" "IX" "V" "IV" "I"))  
+    
+    
+(define (iter n str lst1 lst2)
+      (if (null? lst1)  str          
+         (if (>= n (car lst1)) (iter (- n (car lst1))
+                                     (string-append str (car lst2)) lst1 lst2)
+      (iter n str (cdr lst1) (cdr lst2)))))
+    
+(iter n "" num-list roman-list))
