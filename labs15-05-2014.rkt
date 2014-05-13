@@ -17,7 +17,9 @@
   (let* ((a0 (first  line1)) (a1 (first  line2))
          (b0 (second line1)) (b1 (second line2)     
          (det (- (* a0 b1) (* a1 b0))))
-      (not (zero? det))))
+      (cond [(zero? det) #f] 
+            [else  (cons (/ (- (* b1 c0) (* b0 c1)) det)
+                     (/ (- (* a0 c1) (* a1 c0)) det))])))
 
 (define (make-rectangle point1 point2)
   (let* ((x0 (car point1)) (y0 (cadr point1))
