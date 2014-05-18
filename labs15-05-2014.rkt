@@ -12,7 +12,7 @@
          (c (+ (* a x0) (* b y0))))
     (list a b c)))
 
-(define (linesX line1 line2)
+(define (lines-intersection line1 line2)
   ; whether lines are parallel or intersected
   (let* ((a0 (first  line1)) (a1 (first  line2))
          (b0 (second line1)) (b1 (second line2)     
@@ -21,13 +21,13 @@
             [else  (cons (/ (- (* b1 c0) (* b0 c1)) det)
                      (/ (- (* a0 c1) (* a1 c0)) det))])))
 
-(define (make-rectangle point1 point2)
+(define (make-rect point1 point2)
   (let* ((x0 (car point1)) (y0 (cadr point1))
          (x1 (car point2)) (y1 (cadr point2)))   
  (list (min x0 x1) (max x0 x1) (min y0 y1) (max y0 y1))))
 
 
-(define (point-in-rectangle? point rect)
+(define (in-rect? point rect)
     (let* ((x (car point))
            (y (cdr point))
            (xmin (first rect))
@@ -38,12 +38,17 @@
        (<= ymin y ymax))))
 
 ;main
-(define (intersects? p0 p1 q0 q1)
-  (define p (linesX (make-equation p0 p1) 
-                    (make-equation q0 q1)))
+(define (intersects? seg1 seg2)
+  (let* ((p0 (car seg1))
+         (p1 (cadr seg1))
+         (q0 (car seg2))
+         (q1 (cadr seg2))
+         (p (lines-intesection (make-equation p0 p1) 
+                               (make-equation q0 q1))))
   (if (false? p) #f
-    (and (point-in-rectangle? p (make-rectangle p0 p1))
-         (point-in-rectangle? p (make-rectangle q0 q1)))))
+    (and (in-rect? p (make-rect p0 p1))
+         (in-rect? p (make-rect q0 q1))))))
+
 
 
 ;; #2
