@@ -49,37 +49,24 @@
 ;; #2
 ;; Checking a self-intersection of a polyline
 
-(define (point-in-rectangle-strictly? point rect)
-    (let* ((x (car point))
-           (y (cdr point))
-           (xmin (first rect))
-           (xmax (second rect))
-           (ymin (third rect))
-           (ymax (fourth rect)))
-  (and (< xmin x xmax)
-       (< ymin y ymax))))
-
-
-(define (intersects-except-ends? lst)
-  (let* ((p0 (first lst))    (p1 (second lst))
-         (q0 (third lst))    (q1 (fourth lst)))
-  (define p (linesX (make-equation p0 p1) 
-                    (make-equation q0 q1)))
-  (if (false? p) #f
-    (and (point-in-rectangle-strictly? p (make-rectangle p0 p1))
-         (point-in-rectangle-strictly? p (make-rectangle q0 q1))))))
-
-  (define (combs lst i)
-  (cond [(zero? i) (list null)]
-        [(null? lst) null]
-  (else (append (map (λ (x) (cons (first lst) x))
-                            (combs (rest lst) (sub1 i)))
-                (combs (rest lst) i)))))
-
-;main
 (define (self-intersects? polyline)
-  ; polyline is a list of dots
-  (ormap intersects-except-ends? (combs polyline 4)))
+  
+  (define (list-of-segments lst)
+  (define (iter lst res)
+    (if (null? (rest lst)) (reverse res)
+        (iter (rest lst) 
+              (cons (list (first lst) (second lst)) res))))
+  (iter lst null))
+
+  
+  (define (iter lst)
+    (if (null? (drop lst 2)) #f
+        (let ((current (first lst)))
+          (if (false? (ormap (λ (x) (intersects? current x)) (drop lst 2)))
+              (iter (rest lst))
+              #t))))
+  
+  (iter (list-of-segments polyline)))
 
 
 ;; #3
