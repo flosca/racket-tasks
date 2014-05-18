@@ -15,7 +15,8 @@
 (define (lines-intersection line1 line2)
   ; whether lines are parallel or intersected
   (let* ((a0 (first  line1)) (a1 (first  line2))
-         (b0 (second line1)) (b1 (second line2)     
+         (b0 (second line1)) (b1 (second line2))
+         (c0 (third line1)) (c1 (third line2))   
          (det (- (* a0 b1) (* a1 b0))))
       (cond [(zero? det) #f] 
             [else  (cons (/ (- (* b1 c0) (* b0 c1)) det)
