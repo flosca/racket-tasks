@@ -1,6 +1,4 @@
-racket-tasks
+Computer Science course at UrFU
 ============
-My solutions of Racket tasks, written at first year of Computer Science course.
+My solutions of tasks, written at the Institute of Mathematics and Computer Science in Ural Federal University.
 
-Institute of Mathematics and Computer Science in Ural Federal University.
-
