@@ -9,16 +9,23 @@ factorial(N, Res) :-
 	Res is N * Res1.
 
 %  #2
+even(0).
+even(N) :- N mod 2 =:= 0.
+
+odd(0).
+odd(N) :- N mod 2 =\= 0.
+
+%  #3
 oddDouble(1, 1).
 oddDouble(N, Res) :-
-    N > 0,
+  N > 0,
 	N1 is N - 2,
 	oddDouble(N1, Res1),
 	Res is N * Res1.
 
 evenDouble(0, 1).
 evenDouble(N, Res) :-
-    N > 0,
+  N > 0,
 	N1 is N - 2,
 	evenDouble(N1, Res1),
 	Res is N * Res1.
@@ -26,19 +33,12 @@ evenDouble(N, Res) :-
 
 
 doubleFactorial(N, Res) :-
-      N mod 2 =:= 1,
+      odd(N),
       oddDouble(N, Res).
 
 doubleFactorial(N, Res) :-
-      N mod 2 =:= 0,
+      even(N),
       evenDouble(N, Res).
-
-%  #3
-even(0).
-even(N) :- N mod 2 =:= 0.
-
-odd(0).
-odd(N) :- N mod 2 =\= 0.
 
 
 %  #4
@@ -57,10 +57,18 @@ isPrime(N):- Res is 3,
 
 
 %  #5
-sirakuz(N, Res) :- 
-    0 is N mod 2,
-    Res is (N / 2).
-
-sirakuz(N, Res) :- 
-    1 is N mod 2,
+nextElemInSeq(N, Res) :- 
+    even(N),
+    Res is round(N / 2).
+nextElemInSeq(N, Res) :- 
+    odd(N),
     Res is (3 * N + 1).
+
+sirakuz(0, _) :- !.
+sirakuz(N, A0) :-
+        nextElemInSeq(A0, Res),
+        write(Res),
+        nl,
+        N1 is N - 1,
+        sirakuz(N1, Res).
+
