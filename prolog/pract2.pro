@@ -49,11 +49,11 @@ contains(SubLst, [_ | T]) :-
 
 mergeSort(Lst, [], Lst) :- !.
 mergeSort([], Lst, Lst) :- !.
-mergeSort([H1 | T1], [H2 | T2], [H1|T] ) :-
+mergeSort([H1 | T1], [H2 | T2], [H1|T]) :-
    H1 =< H2,
-   merge(T1, [H2|T2], T), !.
-mergeSort([H1 | T1], [H2 | T2], [H2 | T] ) :- 
-   merge([H1|T1],   T2,  T).
+   mergeSort(T1, [H2|T2], T), !.
+mergeSort([H1 | T1], [H2 | T2], [H2 | T]) :- 
+   mergeSort([H1|T1], T2, T).
 
 %  #7
 
