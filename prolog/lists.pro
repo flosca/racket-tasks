@@ -86,12 +86,3 @@ quickSort([H | T], Res) :-
     append(SortedLeft, [H], Res1),
     append(Res1, SortedRight, Res).
 
-
-
-
-
-
-
-
-
-
